@@ -1,0 +1,113 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: booking
+  examples: |
+    - can i make a booking?
+    - can i make a reservation?
+
+- intent: booking_place
+  examples: |
+    - [Marseille](city)
+    - [Lille](city)
+    - [Angers](city)
+    - [Roubaix](city)
+    - je voudrais dormir à [Paris](city)
+    - Pour [Rennes](city)
+    - Je vais à [Reims](city)
+    - je voudrais allez à [Louvigné du desert](city)
+    - C'est possible à [Louvigné-du-desert](city)?
+    - Je voudrais réserver à [Paris](city), s'il vous plaît.
+    - Pour moi, ce sera [Lyon](city).
+    - Je pense à [Marseille](city) pour cette fois.
+    - [Bordeaux](city) serait idéal, merci.
+    - Réservez à [Toulouse](city), s'il vous plaît.
+    - [Nice](city), pour profiter de la plage.
+    - J'aimerais une chambre à [Strasbourg](city).
+    - Ce sera [Nantes](city) pour ce voyage.
+    - [Montpellier](city), s'il vous plaît.
+    - J'opte pour [Lille](city) cette fois-ci.
+    - Une chambre à [Rennes](city), merci.
+    - Je préfère [Grenoble](city), pour la montagne.
+    - [Avignon](city) me conviendrait parfaitement.
+    - Réservez à [Tours](city), s'il vous plaît.
+    - Je choisirai [Saint-Étienne](city).
+    - [Clermont-Ferrand](city), pour être au calme.
+    - [La Rochelle](city), j'adore cette ville.
+    - Je prends une chambre à [Caen](city).
+    - [Limoges](city) serait parfait pour moi.
+    - [Amiens](city), s'il vous plaît.
+    - Réservez à [Brest](city), pour la vue sur mer.
+    - [Angers](city), j'y vais pour le festival.
+    - [Dijon](city), pour découvrir la gastronomie.
+    - [Le Havre](city), pour un séminaire.
+    - [Orléans](city), pour la proximité avec Paris.
+    - [Mulhouse](city), pour un déplacement professionnel.
+    - [Perpignan](city), j'aimerais profiter du soleil.
+    - Je choisis [Poitiers](city) cette fois.
+    - [Bayonne](city), pour le festival.
+    - Une chambre à [Biarritz](city), merci.
+
+- intent: booking_date
+  examples: |
+    - [15 August 2024]{"entity": "date"}
+    - [26 August 2024]{"entity": "date"}
+    - [26 November 2024]{"entity": "date"}
+    - [12 September 2024]{"entity": "date"}
+
+- lookup: city
+  examples: |
+    - Nantes
+    - Auckland
+    - Tauranga
+    - Papamoa
+    - Te Puke
+    - Gleenfield

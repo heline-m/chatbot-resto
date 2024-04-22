@@ -1,0 +1,10 @@
+/.idea/
+/.rasa/
+/models/
+/venv/
+/credentials.yml
+/endpoints.yml
+/lib/
+/bin/
+/lib64
+/pyvenv.cfg
