@@ -7,8 +7,6 @@ stories:
     - intent: greet
     - action: utter_greet
     - intent: booking
-    - action: utter_booking_place
-    - intent: booking_place
     - action: utter_booking_date
     - intent: booking_date
     - action: utter_recap

@@ -32,82 +32,98 @@ nlu:
 
 - intent: affirm
   examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+    - oui
+    - très bien
+    - parfait
+    - c'est noté
+    - excellent
 
 - intent: deny
   examples: |
-    - no
+    - non
     - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+    - jamais
+    - Je ne pense pas
+    - Je n'aime pas ça
+    - hors de question
+    - pas vraiment
 
 - intent: booking
   examples: |
-    - can i make a booking?
-    - can i make a reservation?
-
-- intent: booking_place
-  examples: |
-    - [Marseille](city)
-    - [Lille](city)
-    - [Angers](city)
-    - [Roubaix](city)
-    - je voudrais dormir à [Paris](city)
-    - Pour [Rennes](city)
-    - Je vais à [Reims](city)
-    - je voudrais allez à [Louvigné du desert](city)
-    - C'est possible à [Louvigné-du-desert](city)?
-    - Je voudrais réserver à [Paris](city), s'il vous plaît.
-    - Pour moi, ce sera [Lyon](city).
-    - Je pense à [Marseille](city) pour cette fois.
-    - [Bordeaux](city) serait idéal, merci.
-    - Réservez à [Toulouse](city), s'il vous plaît.
-    - [Nice](city), pour profiter de la plage.
-    - J'aimerais une chambre à [Strasbourg](city).
-    - Ce sera [Nantes](city) pour ce voyage.
-    - [Montpellier](city), s'il vous plaît.
-    - J'opte pour [Lille](city) cette fois-ci.
-    - Une chambre à [Rennes](city), merci.
-    - Je préfère [Grenoble](city), pour la montagne.
-    - [Avignon](city) me conviendrait parfaitement.
-    - Réservez à [Tours](city), s'il vous plaît.
-    - Je choisirai [Saint-Étienne](city).
-    - [Clermont-Ferrand](city), pour être au calme.
-    - [La Rochelle](city), j'adore cette ville.
-    - Je prends une chambre à [Caen](city).
-    - [Limoges](city) serait parfait pour moi.
-    - [Amiens](city), s'il vous plaît.
-    - Réservez à [Brest](city), pour la vue sur mer.
-    - [Angers](city), j'y vais pour le festival.
-    - [Dijon](city), pour découvrir la gastronomie.
-    - [Le Havre](city), pour un séminaire.
-    - [Orléans](city), pour la proximité avec Paris.
-    - [Mulhouse](city), pour un déplacement professionnel.
-    - [Perpignan](city), j'aimerais profiter du soleil.
-    - Je choisis [Poitiers](city) cette fois.
-    - [Bayonne](city), pour le festival.
-    - Une chambre à [Biarritz](city), merci.
+    - Bonjour, je voudrais réserver une table pour une occasion spéciale
+    - Serait-il possible de réserver une table pour un groupe ?
+    - Je suis intéressé par une réservation pour un prochain repas
+    - Pourriez-vous me dire s'il est possible de réserver une table pour un dîner/déjeuner ?
+    - J'aimerais réserver une table pour une future occasion. Est-ce possible ?
+    - Est-ce qu'on peut réserver pour une prochaine fois ?
+    - Y a-t-il des tables disponibles pour un prochain repas ?
+    - On cherche un bon restaurant pour une occasion spéciale. Vous avez de la place ?
+    - Je suis à la recherche d'un endroit pour réserver une table pour un groupe
 
 - intent: booking_date
   examples: |
-    - [15 August 2024]{"entity": "date"}
-    - [26 August 2024]{"entity": "date"}
-    - [26 November 2024]{"entity": "date"}
-    - [12 September 2024]{"entity": "date"}
+    - [lundi](day) [1](number) [novembre](month)
+    - [22](number) [septembre](month)
+    - ça serait pour le [jeudi](day) [juin](month)
+    - si possible le [vendredi](day) [avril](month)
+    - pour le [18](number)
 
-- lookup: city
+
+- lookup: day
   examples: |
-    - Nantes
-    - Auckland
-    - Tauranga
-    - Papamoa
-    - Te Puke
-    - Gleenfield
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    - dimanche
+
+- lookup: number
+  examples: |
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+    - 31
+
+- lookup: month
+  examples: |
+    - Janvier
+    - Février
+    - Mars
+    - Avril
+    - Mai 
+    - Juin
+    - Juillet
+    - Août
+    - Septembre
+    - Octobre
+    - Novembre
+    - Décembre
