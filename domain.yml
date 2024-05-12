@@ -7,7 +7,10 @@ intents:
   - deny
   - booking
   - booking_date
-  - utter_recap
+  - utter_recap_date
+  - utter_booking_name
+  - name_booking
+  - utter_recap_name
 
 responses:
   utter_greet:
@@ -28,15 +31,20 @@ responses:
   utter_booking_name:
     - text: "Et ça sera à quel nom ? "
 
-  utter_recap:
-  - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
-  - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
-  - text: "Oh navré mais nous n'avons plus de table disponible à cette date"
+  utter_recap_date:
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
+    - text: "Oh navré mais nous n'avons plus de table disponible à cette date"
+
+  utter_recap_name:
+    - text: "ok très bien {booking_name}"
+    - text: "{booking_name} c'est noté"
 
 entities:
   - number
   - day
   - month
+  - booking_name
 
 slots:
   day:
@@ -57,6 +65,12 @@ slots:
     mappings:
       - type: from_entity
         entity: month
+  booking_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: booking_name
 
 
 session_config:

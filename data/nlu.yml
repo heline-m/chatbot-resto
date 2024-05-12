@@ -50,7 +50,7 @@ nlu:
 
 - intent: booking
   examples: |
-    - Bonjour, je voudrais réserver une table pour une occasion spéciale
+    - Je voudrais réserver une table pour une occasion spéciale
     - Serait-il possible de réserver une table pour un groupe ?
     - Je suis intéressé par une réservation pour un prochain repas
     - Pourriez-vous me dire s'il est possible de réserver une table pour un dîner/déjeuner ?
@@ -68,6 +68,23 @@ nlu:
     - si possible le [vendredi](day) [avril](month)
     - pour le [18](number)
 
+- intent: name_booking
+  examples: |
+    - ça sera au nom de [Youenn Duval](booking_name)
+    - ça sera au nom de [Youenn](booking_name)
+    - au nom de [Youenn Duval](booking_name)
+    - au nom de [Duval](booking_name)
+    - [Youenn](booking_name)
+    - [Youenn Duval](booking_name)
+    - [Elisabeth](booking_name) s'il vous plait
+    - Mettez [Ludivine Perrigaud](booking_name)
+    - Parfait, c'est au nom de [Adeline](booking_name)
+    - Vous pouvez noter, c'est [Martineau](booking_name)
+    - c'est [Sophie](Youenn)
+    - C'est pour moi, [Marie](booking_name)
+    - Je réserve pour [Henry](booking_name)
+    - La réservation est au nom de [Richard](booking_name)
+    - Merci, c'est au nom de [Arthur Bonneau](booking_name)
 
 - lookup: day
   examples: |
@@ -127,3 +144,36 @@ nlu:
     - Octobre
     - Novembre
     - Décembre
+
+- lookup: booking_name
+  examples: |
+    - Marie Aubert
+    - Gabriel Martin
+    - Léo Dubois
+    - Dupont
+    - Durand
+    - Leroy
+    - Florence
+    - Adam Petit
+    - Jules Robert
+    - Thomas
+    - Lucas Chevalier
+    - Louise Martin
+    - Dubois
+    - Ambre Durand
+    - Emma Leroy
+    - Katia Bernard
+    - Petit
+    - Léna Bréhier
+    - Quentin
+    - Julia Chevalier
+    - Chloé 
+    - Bernard
+    - Moreau
+    - Lefebvre
+    - Leroy
+    - Fournier
+    - Bonnet
+    - Girard
+    - Mercier
+    - Guerin

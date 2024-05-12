@@ -9,4 +9,7 @@ stories:
     - intent: booking
     - action: utter_booking_date
     - intent: booking_date
-    - action: utter_recap
+    - action: utter_recap_date
+    - action: utter_booking_name
+    - intent: name_booking
+    - action: utter_recap_name
