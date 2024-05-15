@@ -6,55 +6,71 @@ intents:
   - affirm
   - deny
   - booking
-  - booking_place
   - booking_date
+  - utter_recap_date
+  - utter_booking_name
+  - name_booking
+  - utter_recap_name
 
 responses:
   utter_greet:
-  - text: "Hey! How can I help you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
+  - text: "Salut! Comment puis-je vous aider ?"
 
   utter_happy:
-  - text: "Great, carry on!"
+  - text: "Parfait !"
 
   utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "Au revoir"
 
   utter_booking_place:
-  - text: "Sure, where would you like to stay?"
+  - text: "Bien-sûr ça serait pour combien de personne ?"
 
   utter_booking_date:
-  - text: "Which date would you like to reserve?"
+  - text: "A quelle date souhaitez vous réserver ?"
 
-  utter_recap:
-  - text: "it's noted, I recover you want to stay in {city} {date} "
+  utter_booking_name:
+    - text: "Et ça sera à quel nom ? "
+
+  utter_recap_date:
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
+    - text: "Oh navré mais nous n'avons plus de table disponible à cette date"
+
+  utter_recap_name:
+    - text: "ok très bien {booking_name}"
+    - text: "{booking_name} c'est noté"
 
 entities:
-  - city
-  - date
+  - number
+  - day
+  - month
+  - booking_name
 
 slots:
-  city:
+  day:
     type: text
     influence_conversation: false
     mappings:
     - type: from_entity
-      entity: city
-  date:
+      entity: day
+  number:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: date
+      - type: from_entity
+        entity: number
+  month:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: month
+  booking_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: booking_name
 
 
 session_config:
