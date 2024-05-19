@@ -99,6 +99,13 @@ nlu:
   examples: |
     - Mon commentaire :
 
+- intent: booking_give_resa_number
+  examples: |
+    - Bien-sûr, mon numéro était le [2](number_resa)
+    - Mon numéro de réservation est le [10](number_resa)
+    - Le numéro de ma réservation est le [163](number_resa)
+    - Voici votre numéro de réservation: le [36](number_resa)
+
 - lookup: day
   examples: |
     - lundi
@@ -190,3 +197,5 @@ nlu:
     - Girard
     - Mercier
     - Guerin
+    
+  

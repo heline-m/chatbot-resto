@@ -13,6 +13,7 @@ intents:
   - utter_recap_name
   - booking_comment
   - booking_add_comment
+  - booking_give_resa_number
 
 responses:
   utter_greet:
@@ -53,6 +54,21 @@ entities:
   - booking_name
   - comment
 
+forms:
+  add_comment_form:
+    number_resa:
+      - type: from_text
+      - entity: number_resa
+      - intent: booking_give_resa_number
+      - not_intent: stop
+      - prompt: "Quel est le numéro de votre réservation ?"
+    comment:
+      - type: from_text
+      - entity: comment
+      - intent: booking_add_comment
+      - not_intent: stop
+      - prompt: "Quel est votre commentaire ?"
+
 slots:
   number_resa:
     type: text
@@ -92,8 +108,9 @@ slots:
         entity: comment
 
 actions:
+  - action_ask_comment
   - action_save_comment
-  - action_add_comment
+  - action_ask_reservation_number_and_comment
 
 
 session_config:
