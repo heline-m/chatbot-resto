@@ -11,6 +11,8 @@ intents:
   - utter_booking_name
   - name_booking
   - utter_recap_name
+  - booking_comment
+  - booking_add_comment
 
 responses:
   utter_greet:
@@ -40,13 +42,24 @@ responses:
     - text: "ok très bien {booking_name}"
     - text: "{booking_name} c'est noté"
 
+  utter_comment:
+    - text: "Bien-sûr dites moi tout"
+
 entities:
+  - number_resa
   - number
   - day
   - month
   - booking_name
+  - comment
 
 slots:
+  number_resa:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: number_resa
   day:
     type: text
     influence_conversation: false
@@ -71,6 +84,16 @@ slots:
     mappings:
       - type: from_entity
         entity: booking_name
+  comment:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: comment
+
+actions:
+  - action_save_comment
+  - action_add_comment
 
 
 session_config:

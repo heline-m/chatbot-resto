@@ -86,6 +86,19 @@ nlu:
     - La réservation est au nom de [Richard](booking_name)
     - Merci, c'est au nom de [Arthur Bonneau](booking_name)
 
+- intent: booking_comment
+  examples: |
+    - Pourrais-je ajouter un commentaire à ma réservation, s'il vous plaît ?
+    - Serait-il possible de laisser un commentaire sur ma réservation ?
+    - J'aimerais ajouter un commentaire à ma réservation existante. Est-ce possible ?
+    - Y a-t-il un moyen d'ajouter un commentaire à ma réservation ?
+    - Je voudrai ajouter un commentaire
+    - Est-ce que je peux rajouter un commentaire ?
+
+- intent : booking_add_comment
+  examples: |
+    - Mon commentaire :
+
 - lookup: day
   examples: |
     - lundi
@@ -167,7 +180,7 @@ nlu:
     - Léna Bréhier
     - Quentin
     - Julia Chevalier
-    - Chloé 
+    - Chloé
     - Bernard
     - Moreau
     - Lefebvre
