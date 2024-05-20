@@ -8,19 +8,18 @@ rules:
   - action: utter_goodbye
 
 
-- rule: ajouter un commentaire
+- rule: add comment
   steps:
     - intent: booking_comment
-    - action: action_ask_reservation_number_and_comment
-    - active_loop: add_comment_form
+    - action: comment_form
+    - active_loop: comment_form
 
 
-- rule: enregistrer le commentaire
+- rule: comment form
   condition:
-    - active_loop: add_comment_form
+    - active_loop: comment_form
   steps:
-    - action: add_comment_form
-    - slot_was_set:
-        - requested_slot: null
+    - action: comment_form
+    - active_loop: null
     - action: action_save_comment
 

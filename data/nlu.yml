@@ -62,11 +62,9 @@ nlu:
 
 - intent: booking_date
   examples: |
-    - [lundi](day) [1](number) [novembre](month)
-    - [22](number) [septembre](month)
+    - [lundi](day) [novembre](month)
     - ça serait pour le [jeudi](day) [juin](month)
     - si possible le [vendredi](day) [avril](month)
-    - pour le [18](number)
 
 - intent: name_booking
   examples: |
@@ -97,7 +95,14 @@ nlu:
 
 - intent : booking_add_comment
   examples: |
-    - Mon commentaire :
+    - [Nous célébrons notre anniversaire de mariage et nous aimerions une table romantique]{"entity": "comment"}
+    - [Nous venons pour un anniversaire]{"entity": "comment"}
+    - [Nous célébrons notre anniversaire de mariage]{"entity": "comment"}
+    - [Je souhaite faire ma demande en mariage]{"entity": "comment"}
+    - [Je suis allergique aux noix, donc veuillez vous assurer qu'aucun plat ne contient de noix]{"entity": "comment"}
+    - [Je n'aime pas les fruits de mer]{"entity": "comment"}
+    - [Je suis intolérant au gluten]{"entity": "comment"}
+    - [Nous organisons un déjeuner d'affaires et nous aurions besoin d'une table calme et discrète]{"entity": "comment"}
 
 - intent: booking_give_resa_number
   examples: |
@@ -116,39 +121,39 @@ nlu:
     - samedi
     - dimanche
 
-- lookup: number
-  examples: |
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-    - 8
-    - 9
-    - 10
-    - 11
-    - 12
-    - 13
-    - 14
-    - 15
-    - 16
-    - 17
-    - 18
-    - 19
-    - 20
-    - 21
-    - 22
-    - 23
-    - 24
-    - 25
-    - 26
-    - 27
-    - 28
-    - 29
-    - 30
-    - 31
+#- lookup: number
+#  examples: |
+#    - 1
+#    - 2
+#    - 3
+#    - 4
+#    - 5
+#    - 6
+#    - 7
+#    - 8
+#    - 9
+#    - 10
+#    - 11
+#    - 12
+#    - 13
+#    - 14
+#    - 15
+#    - 16
+#    - 17
+#    - 18
+#    - 19
+#    - 20
+#    - 21
+#    - 22
+#    - 23
+#    - 24
+#    - 25
+#    - 26
+#    - 27
+#    - 28
+#    - 29
+#    - 30
+#    - 31
 
 - lookup: month
   examples: |

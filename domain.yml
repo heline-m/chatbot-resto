@@ -43,32 +43,17 @@ responses:
     - text: "ok très bien {booking_name}"
     - text: "{booking_name} c'est noté"
 
-  utter_comment:
-    - text: "Bien-sûr dites moi tout"
+  utter_ask_number_resa:
+    - text : "Pouvez vous me donnez le numéro de votre réservation ?"
 
-entities:
-  - number_resa
-  - number
-  - day
-  - month
-  - booking_name
-  - comment
+  utter_ask_comment:
+    - text: "De quoi souhaitez-vous nous faire part ?"
 
 forms:
-  add_comment_form:
-    number_resa:
-      - type: from_text
-      - entity: number_resa
-      - intent: booking_give_resa_number
-      - not_intent: stop
-      - prompt: "Quel est le numéro de votre réservation ?"
-    comment:
-      - type: from_text
-      - entity: comment
-      - intent: booking_add_comment
-      - not_intent: stop
-      - prompt: "Quel est votre commentaire ?"
-
+  comment_form:
+    required_slots:
+      - number_resa
+      - comment
 slots:
   number_resa:
     type: text
@@ -80,8 +65,8 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: day
+      - type: from_entity
+        entity: day
   number:
     type: text
     influence_conversation: false
@@ -107,10 +92,17 @@ slots:
       - type: from_entity
         entity: comment
 
+entities:
+  - number_resa
+  - number
+  - day
+  - month
+  - booking_name
+  - comment
+
 actions:
-  - action_ask_comment
+  - validate_comment_form
   - action_save_comment
-  - action_ask_reservation_number_and_comment
 
 
 session_config:

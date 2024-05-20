@@ -27,38 +27,49 @@ from rasa_sdk.events import SlotSet
 #
 #         return []
 
-class ActionAskReservationNumberAndComment(Action):
+class ValidateCommentForm(FormValidationAction):
     def name(self):
-        return "action_ask_reservation_number_and_comment"
+        return "validate_comment_form"
 
-    def run(self, dispatcher, tracker, domain):
+    def validate_number_resa(
+             self,
+             slot_value: Any,
+             dispatcher: CollectingDispatcher,
+             tracker: Tracker,
+             domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+
+        """Validate `number_resa` value."""
         # Vérifie si le numéro de réservation est déjà présent dans le slot
-        reservation_number = tracker.get_slot("number_resa")
 
-        if reservation_number is None:
-            dispatcher.utter_message("Quel est le numéro de votre réservation ?")
-            # on set la demande du slot number_resa
-            return [SlotSet("requested_slot", "number_resa")]
+        print("je suis la")
+        number = int(slot_value)
 
-        # Si le numéro de réservation est déjà présent, pas besoin de demander
-        dispatcher.utter_message("Quel est votre commentaire ?")
-        return []
+        if number > 0:
+            return {"number_resa": slot_value}
+        else:
+            dispatcher.utter_message(text=f"Votre numéro de réservation ne peut pas être 0")
+            return {"number_resa": None}
 
-class ActionAskComment(Action):
-
-    def name(self) -> Text:
-        return "action_ask_comment"
-
-    def run(self, dispatcher: CollectingDispatcher,
+    def validate_comment(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
             tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
 
-        last_intent = tracker.latest_message['text']
-        dispatcher.utter_message(text=last_intent)
+        """Validate `comment` value."""
+        print("je suis dans comment")
 
-        return [SlotSet("comment", last_intent)]
+        if isinstance(slot_value, str) and len(slot_value.strip()) > 5:
+            return {"comment": slot_value.strip()}
+        else:
+            dispatcher.utter_message(text="Le commentaire ne peut pas être vide")
+            return {"comment": None}
 
-class ActionSaveComment(FormValidationAction):
+
+class ActionSaveComment(Action):
     def name(self) -> str:
         return "action_save_comment"
 
@@ -70,6 +81,7 @@ class ActionSaveComment(FormValidationAction):
             conn = sqlite3.connect('rasa.db')
             cursor = conn.cursor()
 
+            # TODO a retirer sert juste à debbuger
             cursor.execute("SELECT id, date, nber_pers, phone, comment FROM reservation")
             rows = cursor.fetchall()
 
@@ -80,7 +92,7 @@ class ActionSaveComment(FormValidationAction):
             comment = tracker.get_slot('comment')
             print(comment)
 
-            if not reservation_id or not new_comment:
+            if not reservation_id or not comment:
                 dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
                 return []
 
