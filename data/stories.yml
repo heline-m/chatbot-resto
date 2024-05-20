@@ -2,22 +2,15 @@ version: "3.1"
 
 stories:
 
-#- story: reservation path
-#  steps:
-#    - intent: greet
-#    - action: utter_greet
-#    - intent: booking
-#    - action: utter_booking_date
-#    - intent: booking_date
-#    - action: utter_recap_date
-#    - action: utter_booking_name
-#    - intent: name_booking
-#    - action: utter_recap_name
+- story: reservation path
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: booking
+    - action: utter_booking_date
+    - intent: booking_date
+    - action: utter_recap_date
+    - action: utter_booking_name
+    - intent: name_booking
+    - action: utter_recap_name
 
-#- story: ajouter un commentaire
-#  steps:
-#  - intent: booking_comment
-#  - action: utter_comment
-#  - intent: booking_add_comment
-#  - action: action_save_comment
-#  - action: action_add_comment

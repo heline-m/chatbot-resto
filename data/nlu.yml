@@ -106,10 +106,10 @@ nlu:
 
 - intent: booking_give_resa_number
   examples: |
-    - Bien-sûr, mon numéro était le [2](number_resa)
-    - Mon numéro de réservation est le [10](number_resa)
-    - Le numéro de ma réservation est le [163](number_resa)
-    - Voici votre numéro de réservation: le [36](number_resa)
+    - Bien-sûr, mon numéro était le [1002](booking_code)
+    - Mon numéro de réservation est le [6000](booking_code)
+    - Le numéro de ma réservation est le [5048](booking_code)
+    - Voici votre numéro de réservation: le [3020](booking_code)
 
 - lookup: day
   examples: |
