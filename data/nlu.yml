@@ -113,6 +113,12 @@ nlu:
     - Heuuu [4](nber_pers) je pense 
     - notez [12](nber_pers)
 
+- intent: booking_ask_resa
+  examples: | 
+    - J'aimerais afficher ma réservation
+    - J'aimerais voir ma réservation
+    - Montrez moi ma réservation
+
 - lookup: booking_name
   examples: |
     - Marie Aubert

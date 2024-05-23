@@ -14,6 +14,7 @@ import sqlite3
 from rasa_sdk.events import SlotSet
 from datetime import datetime
 import re
+import random
 
 # example:
 # class ActionHelloWorld(Action):
@@ -116,54 +117,50 @@ class ActionSaveBooking(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
 
         print("j'enregistre")
-        # try:
-        #     conn = sqlite3.connect('rasa.db')
-        #     cursor = conn.cursor()
-        #
-        #     # TODO a retirer sert juste à debbuger
-        #     cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
-        #     rows = cursor.fetchall()
-        #
-        #     print(rows)
-        #
-        #     # TODO --------------- à modifier ----------------------------
-        #     reservation_id = tracker.get_slot('booking_code')
-        #     print(reservation_id)
-        #     comment = tracker.get_slot('comment')
-        #     print(comment)
-        #
-        #     if not reservation_id or not comment:
-        #         dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
-        #         return []
-        #
-        #
-        #     # Connecter à la base de données
-        #     cursor2 = conn.cursor()
-        #
-        #     # Mettre à jour le commentaire de la réservation spécifiée
-        #     cursor2.execute('''
-        #     UPDATE reservation
-        #     SET comment = ?
-        #     WHERE booking_code = ?
-        #     ''', (comment, reservation_id))
-        #
-        #     # Sauvegarder les changements
-        #     conn.commit()
-        #
-        #     if cursor2.rowcount == 0:
-        #         dispatcher.utter_message(text=f"Aucune réservation trouvée avec le numéro: {reservation_id}.")
-        #     else:
-        #         dispatcher.utter_message(text="Le commentaire a été ajouté à la réservation avec succès.")
-        #
-        #     conn.close()
-        # except sqlite3.Error as e:
-        #     dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
+        try:
+            conn = sqlite3.connect('rasa.db')
+            cursor = conn.cursor()
 
-        # TODO --------------- à modifier FIN  ----------------------------
+            # TODO a retirer sert juste à debbuger
+            cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
+            rows = cursor.fetchall()
+
+            print(rows)
+
+            date = tracker.get_slot('date')
+            print(date)
+            nber_pers = int(tracker.get_slot('nber_pers'))
+            print(nber_pers)
+            tel = tracker.get_slot('tel')
+            print(tel)
+            booking_name = tracker.get_slot('booking_name')
+            print(booking_name)
+
+            # création du booking code
+            booking_code = random.randint(1000, 9999)
+
+            # Connecter à la base de données
+            cursor2 = conn.cursor()
+
+            # Mettre à jour le commentaire de la réservation spécifiée
+            cursor2.execute('''
+            INSERT INTO reservation 
+            (booking_code, date, nber_pers, phone, name) 
+            VALUES (?, ?, ?, ?, ?)
+            ''', (booking_code, date, nber_pers, tel, booking_name))
+
+            # Sauvegarder les changements
+            # Valider la transaction et fermer la connexion
+            conn.commit()
+            conn.close()
+
+            # Confirmation à l'utilisateur
+            dispatcher.utter_message(text=f"Réservation enregistrée pour {booking_name} le {date} pour {nber_pers} personnes. Nous vous contacterons au {tel}. Votre numéro de réservation est le {booking_code}, nous vous conseillons de le noter")
+
+        except sqlite3.Error as e:
+            dispatcher.utter_message(text=f"Une erreur est survenue lors de l'enregistrement de la réservation : {e}")
+
         return [SlotSet("booking_code", booking_code), SlotSet("date", None), SlotSet("nber_pers", None), SlotSet("tel", None), SlotSet("booking_name", None)]
-
-
-
 
 
 
@@ -260,5 +257,39 @@ class ActionSaveComment(Action):
             dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
 
         return [SlotSet("booking_code", None), SlotSet("comment", None)]
+
+class ActionShowBooking(Action):
+    def name(self) -> str:
+        return "action_show_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
+        # Récupérer le booking_code de la réservation à partir des slots
+        booking_code = tracker.get_slot("booking_code")
+
+        if not booking_code:
+            dispatcher.utter_message(text="Veuillez fournir un numéro de réservation.")
+            return []
+
+        # Connecter à la base de données SQLite
+        conn = sqlite3.connect('rasa.db')
+        cursor = conn.cursor()
+
+        # Rechercher la réservation par booking_code
+        cursor.execute("SELECT date, nber_pers, phone, name, comment FROM reservation WHERE booking_code = ?", (booking_code,))
+        result = cursor.fetchone()
+
+        # Fermer la connexion
+        conn.close()
+
+        if result:
+            date, nber_pers, phone, name, comment = result
+            message = f"Réservation pour {name}:\nNuméro de réservation: {booking_code}\nDate: {date}\nNombre de personnes: {nber_pers}\nTéléphone: {phone}\nCommentaire: {comment}"
+        else:
+            message = f"Aucune réservation trouvée pour le numéro {booking_code}."
+
+        # Envoyer le message à l'utilisateur
+        dispatcher.utter_message(text=message)
+
+        return []
 
 

@@ -14,6 +14,7 @@ intents:
   - booking_comment
   - booking_add_comment
   - booking_give_resa_number
+  - booking_ask_resa
 
 responses:
   utter_greet:
@@ -128,6 +129,7 @@ actions:
   - action_save_comment
   - validate_booking_form
   - action_save_booking
+  - action_show_booking
 
 
 session_config:

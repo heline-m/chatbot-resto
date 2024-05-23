@@ -13,6 +13,11 @@ rules:
     - active_loop: null
     - action: utter_ok
 
+- rule: show booking
+  steps:
+    - intent: booking_ask_resa
+    - action: action_show_booking
+
 # Pour garder un trace, à retirer -----------!!!!!!!!!!!!!!!----------------
 
 #- rule: greet during reservation path
