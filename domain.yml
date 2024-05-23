@@ -14,6 +14,7 @@ intents:
   - booking_comment
   - booking_add_comment
   - booking_give_resa_number
+  - booking_ask_resa
 
 responses:
   utter_greet:
@@ -22,20 +23,14 @@ responses:
   utter_happy:
   - text: "Parfait !"
 
+  utter_of_course:
+  - text: "Bien-sûr !"
+
   utter_ok:
   - text: "ok"
 
   utter_goodbye:
   - text: "Au revoir"
-
-  utter_booking_place:
-  - text: "Bien-sûr ça serait pour combien de personne ?"
-
-  utter_booking_date:
-  - text: "A quelle date souhaitez vous réserver ?"
-
-  utter_booking_name:
-    - text: "Et ça sera à quel nom ? "
 
   utter_recap_date:
     - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
@@ -46,11 +41,27 @@ responses:
     - text: "ok très bien {booking_name}"
     - text: "{booking_name} c'est noté"
 
+#      Phrases pour le form booking -------------
+  utter_ask_date:
+    - text: "A quelle date souhaitez vous réserver ?"
+
+  utter_ask_nber_pers:
+    - text: "Vous serrez combien de personne ?"
+
+  utter_ask_tel:
+    - text: "Pourriez vous me donner votre numéro de téléphone ?"
+
+  utter_ask_booking_name:
+    - text: "Et ça sera à quel nom ?"
+#      END
+
+#      Phrases pour le form comment -------------
   utter_ask_booking_code:
     - text : "Pouvez vous me donnez le numéro de votre réservation ?"
 
   utter_ask_comment:
     - text: "De quoi souhaitez-vous nous faire part ?"
+#      END
 
   utter_warning_comment:
     - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
@@ -60,6 +71,13 @@ forms:
     required_slots:
       - booking_code
       - comment
+  booking_form:
+    required_slots:
+      - date
+      - nber_pers
+      - tel
+      - booking_name
+
 slots:
   booking_code:
     type: text
@@ -67,24 +85,24 @@ slots:
     mappings:
       - type: from_entity
         entity: booking_code
-  day:
+  date:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: day
-  number:
+        entity: date
+  nber_pers:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: number
-  month:
+        entity: nber_pers
+  tel:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: month
+        entity: tel
   booking_name:
     type: text
     influence_conversation: false
@@ -100,15 +118,18 @@ slots:
 
 entities:
   - booking_code
-  - number
-  - day
-  - month
+  - date
+  - tel
+  - nber_pers
   - booking_name
   - comment
 
 actions:
   - validate_comment_form
   - action_save_comment
+  - validate_booking_form
+  - action_save_booking
+  - action_show_booking
 
 
 session_config:

@@ -7,12 +7,23 @@ stories:
     - intent: greet
     - action: utter_greet
     - intent: booking
-    - action: utter_booking_date
-    - intent: booking_date
-    - action: utter_recap_date
-    - action: utter_booking_name
-    - intent: name_booking
-    - action: utter_recap_name
+    - action: utter_of_course
+    - action: booking_form
+    - active_loop: booking_form
+    - active_loop: null
+    - action: action_save_booking
+
+#- story: reservation path
+#  steps:
+#    - intent: greet
+#    - action: utter_greet
+#    - intent: booking
+#    - action: utter_booking_date
+#    - intent: booking_date
+#    - action: utter_recap_date
+#    - action: utter_booking_name
+#    - intent: name_booking
+#    - action: utter_recap_name
 
 - story: add comment
   steps:

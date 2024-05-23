@@ -12,6 +12,9 @@ from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 import sqlite3
 from rasa_sdk.events import SlotSet
+from datetime import datetime
+import re
+import random
 
 # example:
 # class ActionHelloWorld(Action):
@@ -26,6 +29,140 @@ from rasa_sdk.events import SlotSet
 #         dispatcher.utter_message(text="Hello World!")
 #
 #         return []
+
+class ValidateBookingForm(FormValidationAction):
+    def name(self):
+        return "validate_booking_form"
+
+    def validate_date(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+
+        """Validate `date` value."""
+        # Vérifie si le numéro de réservation est déjà présent dans le slot
+
+        print("je suis dans booking date")
+        # TODO vérification de la date sous la forme **/**/**
+
+        try:
+            datetime.strptime(slot_value, "%d/%m/%y")
+            return {"date": slot_value}
+        except ValueError:
+            dispatcher.utter_message(text="La date doit être au format jj/mm/aa.")
+            return {"date": None}
+
+    def validate_nber_pers(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+
+        """Validate `nber_pers` value."""
+        print("je suis dans nombre pers")
+
+        number = int(slot_value)
+        # TODO validation : le nombre doit être compris entre 1 et 15
+
+        if 1 <= number <= 15:
+            return {"nber_pers": number}
+        else:
+            dispatcher.utter_message(text="Le nombre de personnes doit être compris entre 1 et 15.")
+            return {"nber_pers": None}
+
+    def validate_tel(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+
+        """Validate `tel` value."""
+        print("je suis dans nombre pers")
+
+        if re.fullmatch(r"\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}", slot_value):
+            return {"tel": slot_value}
+        else:
+            dispatcher.utter_message(text="Le numéro de téléphone doit être au format 00.00.00.00.00")
+            return {"tel": None}
+
+    def validate_booking_name(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+
+        """Validate `booking_name` value."""
+        print("je suis dans nom")
+
+        if slot_value and slot_value.strip():
+            return {"booking_name": slot_value}
+        else:
+            dispatcher.utter_message(text="Le nom ne peut pas être vide.")
+            return {"booking_name": None}
+
+
+class ActionSaveBooking(Action):
+    def name(self) -> str:
+        return "action_save_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
+
+        print("j'enregistre")
+        try:
+            conn = sqlite3.connect('rasa.db')
+            cursor = conn.cursor()
+
+            # TODO a retirer sert juste à debbuger
+            cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
+            rows = cursor.fetchall()
+
+            print(rows)
+
+            date = tracker.get_slot('date')
+            print(date)
+            nber_pers = int(tracker.get_slot('nber_pers'))
+            print(nber_pers)
+            tel = tracker.get_slot('tel')
+            print(tel)
+            booking_name = tracker.get_slot('booking_name')
+            print(booking_name)
+
+            # création du booking code
+            booking_code = random.randint(1000, 9999)
+
+            # Connecter à la base de données
+            cursor2 = conn.cursor()
+
+            # Mettre à jour le commentaire de la réservation spécifiée
+            cursor2.execute('''
+            INSERT INTO reservation 
+            (booking_code, date, nber_pers, phone, name) 
+            VALUES (?, ?, ?, ?, ?)
+            ''', (booking_code, date, nber_pers, tel, booking_name))
+
+            # Sauvegarder les changements
+            # Valider la transaction et fermer la connexion
+            conn.commit()
+            conn.close()
+
+            # Confirmation à l'utilisateur
+            dispatcher.utter_message(text=f"Réservation enregistrée pour {booking_name} le {date} pour {nber_pers} personnes. Nous vous contacterons au {tel}. Votre numéro de réservation est le {booking_code}, nous vous conseillons de le noter")
+
+        except sqlite3.Error as e:
+            dispatcher.utter_message(text=f"Une erreur est survenue lors de l'enregistrement de la réservation : {e}")
+
+        return [SlotSet("booking_code", booking_code), SlotSet("date", None), SlotSet("nber_pers", None), SlotSet("tel", None), SlotSet("booking_name", None)]
+
+
 
 class ValidateCommentForm(FormValidationAction):
     def name(self):
@@ -120,5 +257,39 @@ class ActionSaveComment(Action):
             dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
 
         return [SlotSet("booking_code", None), SlotSet("comment", None)]
+
+class ActionShowBooking(Action):
+    def name(self) -> str:
+        return "action_show_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
+        # Récupérer le booking_code de la réservation à partir des slots
+        booking_code = tracker.get_slot("booking_code")
+
+        if not booking_code:
+            dispatcher.utter_message(text="Veuillez fournir un numéro de réservation.")
+            return []
+
+        # Connecter à la base de données SQLite
+        conn = sqlite3.connect('rasa.db')
+        cursor = conn.cursor()
+
+        # Rechercher la réservation par booking_code
+        cursor.execute("SELECT date, nber_pers, phone, name, comment FROM reservation WHERE booking_code = ?", (booking_code,))
+        result = cursor.fetchone()
+
+        # Fermer la connexion
+        conn.close()
+
+        if result:
+            date, nber_pers, phone, name, comment = result
+            message = f"Réservation pour {name}:\nNuméro de réservation: {booking_code}\nDate: {date}\nNombre de personnes: {nber_pers}\nTéléphone: {phone}\nCommentaire: {comment}"
+        else:
+            message = f"Aucune réservation trouvée pour le numéro {booking_code}."
+
+        # Envoyer le message à l'utilisateur
+        dispatcher.utter_message(text=message)
+
+        return []
 
 
