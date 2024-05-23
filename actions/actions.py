@@ -119,6 +119,6 @@ class ActionSaveComment(Action):
         except sqlite3.Error as e:
             dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
 
-        return []
+        return [SlotSet("booking_code", None), SlotSet("comment", None)]
 
 
