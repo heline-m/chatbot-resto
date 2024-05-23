@@ -79,17 +79,17 @@ class ValidateBookingForm(FormValidationAction):
             domain: Dict[Text, Any]
     ) -> Dict[Text, Any]:
 
-    """Validate `tel` value."""
-    print("je suis dans nombre pers")
+        """Validate `tel` value."""
+        print("je suis dans nombre pers")
 
-    number = int(slot_value)
-    # TODO validation : le numéro doit être sous la forme 00.00.00.00.00
+        number = int(slot_value)
+        # TODO validation : le numéro doit être sous la forme 00.00.00.00.00
 
-    if number > 0:
-        return {"tel": slot_value}
-    else:
-        dispatcher.utter_message(text=f"Votre numéro doit être sous la forme 00.00.00.00.00")
-        return {"tel": None}
+        if number > 0:
+            return {"tel": slot_value}
+        else:
+            dispatcher.utter_message(text=f"Votre numéro doit être sous la forme 00.00.00.00.00")
+            return {"tel": None}
 
     def validate_booking_name(
             self,
@@ -99,16 +99,16 @@ class ValidateBookingForm(FormValidationAction):
             domain: Dict[Text, Any]
     ) -> Dict[Text, Any]:
 
-    """Validate `nber_pers` value."""
-    print("je suis dans nom")
+        """Validate `nber_pers` value."""
+        print("je suis dans nom")
 
-    # TODO validation : le nom ne peut pas être null
+        # TODO validation : le nom ne peut pas être null
 
-    if number > 0:
-        return {"booking_name": slot_value}
-    else:
-        dispatcher.utter_message(text=f"Votre nom est incorrect")
-        return {"booking_name": None}
+        if number > 0:
+            return {"booking_name": slot_value}
+        else:
+            dispatcher.utter_message(text=f"Votre nom est incorrect")
+            return {"booking_name": None}
 
 
 class ActionSaveBooking(Action):
