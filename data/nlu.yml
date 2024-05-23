@@ -50,9 +50,9 @@ nlu:
 
 - intent: booking_date
   examples: |
-    - [lundi](day) [novembre](month)
-    - ça serait pour le [jeudi](day) [juin](month)
-    - si possible le [vendredi](day) [avril](month)
+    - nous souhaitons réserver pour le [12/09/24](date)
+    - ça serait pour le [03/02/25](date)
+    - Nous aimerions réserver pour le [25/05/24](date)
 
 - intent: name_booking
   examples: |
@@ -99,64 +99,19 @@ nlu:
     - Le numéro de ma réservation est le [5048](booking_code)
     - Voici votre numéro de réservation: le [3020](booking_code)
 
-- lookup: day
+- intent: booking_give_phone
   examples: |
-    - lundi
-    - mardi
-    - mercredi
-    - jeudi
-    - vendredi
-    - samedi
-    - dimanche
+    - Mon numéro est le [06.35.24.15.53](tel)
+    - Vous pouvez me joindre au [06.78.95.45.63](tel)
+    - Vous pouvez m'appeler au [06.76.21.32.52](tel)
 
-#- lookup: number
-#  examples: |
-#    - 1
-#    - 2
-#    - 3
-#    - 4
-#    - 5
-#    - 6
-#    - 7
-#    - 8
-#    - 9
-#    - 10
-#    - 11
-#    - 12
-#    - 13
-#    - 14
-#    - 15
-#    - 16
-#    - 17
-#    - 18
-#    - 19
-#    - 20
-#    - 21
-#    - 22
-#    - 23
-#    - 24
-#    - 25
-#    - 26
-#    - 27
-#    - 28
-#    - 29
-#    - 30
-#    - 31
-
-- lookup: month
+- intent: booking_give_nber_pers
   examples: |
-    - Janvier
-    - Février
-    - Mars
-    - Avril
-    - Mai 
-    - Juin
-    - Juillet
-    - Août
-    - Septembre
-    - Octobre
-    - Novembre
-    - Décembre
+    - Nous serons [10](nber_pers)
+    - Je pense que nous serons [5](nber_pers)
+    - mettez [2](nber_pers)
+    - Heuuu [4](nber_pers) je pense 
+    - notez [12](nber_pers)
 
 - lookup: booking_name
   examples: |

@@ -12,6 +12,8 @@ from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 import sqlite3
 from rasa_sdk.events import SlotSet
+from datetime import datetime
+import re
 
 # example:
 # class ActionHelloWorld(Action):
@@ -45,10 +47,11 @@ class ValidateBookingForm(FormValidationAction):
         print("je suis dans booking date")
         # TODO vérification de la date sous la forme **/**/**
 
-        if number > 0:
+        try:
+            datetime.strptime(slot_value, "%d/%m/%y")
             return {"date": slot_value}
-        else:
-            dispatcher.utter_message(text=f"La date doit être sous la forme jj/mm/aa")
+        except ValueError:
+            dispatcher.utter_message(text="La date doit être au format jj/mm/aa.")
             return {"date": None}
 
     def validate_nber_pers(
@@ -65,10 +68,10 @@ class ValidateBookingForm(FormValidationAction):
         number = int(slot_value)
         # TODO validation : le nombre doit être compris entre 1 et 15
 
-        if number > 0:
-            return {"nber_pers": slot_value}
+        if 1 <= number <= 15:
+            return {"nber_pers": number}
         else:
-            dispatcher.utter_message(text=f"Votre numéro de réservation ne peut pas être 0")
+            dispatcher.utter_message(text="Le nombre de personnes doit être compris entre 1 et 15.")
             return {"nber_pers": None}
 
     def validate_tel(
@@ -82,13 +85,10 @@ class ValidateBookingForm(FormValidationAction):
         """Validate `tel` value."""
         print("je suis dans nombre pers")
 
-        number = int(slot_value)
-        # TODO validation : le numéro doit être sous la forme 00.00.00.00.00
-
-        if number > 0:
+        if re.fullmatch(r"\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}", slot_value):
             return {"tel": slot_value}
         else:
-            dispatcher.utter_message(text=f"Votre numéro doit être sous la forme 00.00.00.00.00")
+            dispatcher.utter_message(text="Le numéro de téléphone doit être au format 00.00.00.00.00")
             return {"tel": None}
 
     def validate_booking_name(
@@ -99,15 +99,13 @@ class ValidateBookingForm(FormValidationAction):
             domain: Dict[Text, Any]
     ) -> Dict[Text, Any]:
 
-        """Validate `nber_pers` value."""
+        """Validate `booking_name` value."""
         print("je suis dans nom")
 
-        # TODO validation : le nom ne peut pas être null
-
-        if number > 0:
+        if slot_value and slot_value.strip():
             return {"booking_name": slot_value}
         else:
-            dispatcher.utter_message(text=f"Votre nom est incorrect")
+            dispatcher.utter_message(text="Le nom ne peut pas être vide.")
             return {"booking_name": None}
 
 
@@ -117,48 +115,49 @@ class ActionSaveBooking(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
 
-        try:
-            conn = sqlite3.connect('rasa.db')
-            cursor = conn.cursor()
-
-            # TODO a retirer sert juste à debbuger
-            cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
-            rows = cursor.fetchall()
-
-            print(rows)
-
-            # TODO --------------- à modifier ----------------------------
-            reservation_id = tracker.get_slot('booking_code')
-            print(reservation_id)
-            comment = tracker.get_slot('comment')
-            print(comment)
-
-            if not reservation_id or not comment:
-                dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
-                return []
-
-
-            # Connecter à la base de données
-            cursor2 = conn.cursor()
-
-            # Mettre à jour le commentaire de la réservation spécifiée
-            cursor2.execute('''
-            UPDATE reservation
-            SET comment = ?
-            WHERE booking_code = ?
-            ''', (comment, reservation_id))
-
-            # Sauvegarder les changements
-            conn.commit()
-
-            if cursor2.rowcount == 0:
-                dispatcher.utter_message(text=f"Aucune réservation trouvée avec le numéro: {reservation_id}.")
-            else:
-                dispatcher.utter_message(text="Le commentaire a été ajouté à la réservation avec succès.")
-
-            conn.close()
-        except sqlite3.Error as e:
-            dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
+        print("j'enregistre")
+        # try:
+        #     conn = sqlite3.connect('rasa.db')
+        #     cursor = conn.cursor()
+        #
+        #     # TODO a retirer sert juste à debbuger
+        #     cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
+        #     rows = cursor.fetchall()
+        #
+        #     print(rows)
+        #
+        #     # TODO --------------- à modifier ----------------------------
+        #     reservation_id = tracker.get_slot('booking_code')
+        #     print(reservation_id)
+        #     comment = tracker.get_slot('comment')
+        #     print(comment)
+        #
+        #     if not reservation_id or not comment:
+        #         dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
+        #         return []
+        #
+        #
+        #     # Connecter à la base de données
+        #     cursor2 = conn.cursor()
+        #
+        #     # Mettre à jour le commentaire de la réservation spécifiée
+        #     cursor2.execute('''
+        #     UPDATE reservation
+        #     SET comment = ?
+        #     WHERE booking_code = ?
+        #     ''', (comment, reservation_id))
+        #
+        #     # Sauvegarder les changements
+        #     conn.commit()
+        #
+        #     if cursor2.rowcount == 0:
+        #         dispatcher.utter_message(text=f"Aucune réservation trouvée avec le numéro: {reservation_id}.")
+        #     else:
+        #         dispatcher.utter_message(text="Le commentaire a été ajouté à la réservation avec succès.")
+        #
+        #     conn.close()
+        # except sqlite3.Error as e:
+        #     dispatcher.utter_message(text=f"Une erreur est survenue lors de la mise à jour de la réservation : {e}")
 
         # TODO --------------- à modifier FIN  ----------------------------
         return [SlotSet("booking_code", booking_code), SlotSet("date", None), SlotSet("nber_pers", None), SlotSet("tel", None), SlotSet("booking_name", None)]

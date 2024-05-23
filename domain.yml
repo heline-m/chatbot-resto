@@ -22,6 +22,9 @@ responses:
   utter_happy:
   - text: "Parfait !"
 
+  utter_of_course:
+  - text: "Bien-sûr !"
+
   utter_ok:
   - text: "ok"
 
@@ -68,6 +71,7 @@ forms:
       - booking_code
       - comment
   booking_form:
+    required_slots:
       - date
       - nber_pers
       - tel
@@ -113,9 +117,9 @@ slots:
 
 entities:
   - booking_code
-  - number
-  - day
-  - month
+  - date
+  - tel
+  - nber_pers
   - booking_name
   - comment
 
