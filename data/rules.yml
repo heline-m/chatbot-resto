@@ -7,19 +7,43 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
-
-- rule: add comment
+- rule: stop story if user says no
   steps:
-    - intent: booking_comment
-    - action: comment_form
-    - active_loop: comment_form
-
-
-- rule: comment form
-  condition:
-    - active_loop: comment_form
-  steps:
-    - action: comment_form
+    - intent: deny
     - active_loop: null
-    - action: action_save_comment
+    - action: utter_ok
+
+# Pour garder un trace, à retirer -----------!!!!!!!!!!!!!!!----------------
+
+#- rule: greet during reservation path
+#  steps:
+#    - checkpoint: reservation_path_start
+#    - intent: greet
+#    - action: utter_greet
+#    - checkpoint: reservation_path_resume
+#
+#- rule: greet during add comment
+#  steps:
+#    - checkpoint: add_comment_start
+#    - intent: greet
+#    - action: utter_greet
+#    - checkpoint: add_comment_resume
+
+
+#- rule: add comment
+#  steps:
+#    - intent: booking_comment
+#    - action: utter_warning_comment
+#    - intent: affirm
+#    - action: comment_form
+#    - active_loop: comment_form
+#
+#
+#- rule: comment form
+#  condition:
+#    - active_loop: comment_form
+#  steps:
+#    - action: comment_form
+#    - active_loop: null
+#    - action: action_save_comment
 

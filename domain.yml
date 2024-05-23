@@ -22,6 +22,9 @@ responses:
   utter_happy:
   - text: "Parfait !"
 
+  utter_ok:
+  - text: "ok"
+
   utter_goodbye:
   - text: "Au revoir"
 
@@ -48,6 +51,9 @@ responses:
 
   utter_ask_comment:
     - text: "De quoi souhaitez-vous nous faire part ?"
+
+  utter_warning_comment:
+    - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
 
 forms:
   comment_form:

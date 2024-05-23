@@ -14,3 +14,12 @@ stories:
     - intent: name_booking
     - action: utter_recap_name
 
+- story: add comment
+  steps:
+    - intent: booking_comment
+    - action: utter_warning_comment
+    - intent: affirm
+    - action: comment_form
+    - active_loop: comment_form
+    - active_loop: null
+    - action: action_save_comment
