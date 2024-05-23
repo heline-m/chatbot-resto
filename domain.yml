@@ -13,6 +13,7 @@ intents:
   - utter_recap_name
   - booking_comment
   - booking_add_comment
+  - booking_give_resa_number
 
 responses:
   utter_greet:
@@ -20,6 +21,9 @@ responses:
 
   utter_happy:
   - text: "Parfait !"
+
+  utter_ok:
+  - text: "ok"
 
   utter_goodbye:
   - text: "Au revoir"
@@ -42,30 +46,33 @@ responses:
     - text: "ok très bien {booking_name}"
     - text: "{booking_name} c'est noté"
 
-  utter_comment:
-    - text: "Bien-sûr dites moi tout"
+  utter_ask_booking_code:
+    - text : "Pouvez vous me donnez le numéro de votre réservation ?"
 
-entities:
-  - number_resa
-  - number
-  - day
-  - month
-  - booking_name
-  - comment
+  utter_ask_comment:
+    - text: "De quoi souhaitez-vous nous faire part ?"
 
+  utter_warning_comment:
+    - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
+
+forms:
+  comment_form:
+    required_slots:
+      - booking_code
+      - comment
 slots:
-  number_resa:
+  booking_code:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: number_resa
+        entity: booking_code
   day:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: day
+      - type: from_entity
+        entity: day
   number:
     type: text
     influence_conversation: false
@@ -91,9 +98,17 @@ slots:
       - type: from_entity
         entity: comment
 
+entities:
+  - booking_code
+  - number
+  - day
+  - month
+  - booking_name
+  - comment
+
 actions:
+  - validate_comment_form
   - action_save_comment
-  - action_add_comment
 
 
 session_config:
