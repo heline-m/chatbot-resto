@@ -131,11 +131,11 @@ nlu:
     - Pouvez-vous me montrer le menu du jour ?
     - J'aimerais voir le menu d'aujourd'hui
 
-- intent: menu_ask_full
+- intent: open_link
   examples: |
-    - Lien vers le menu complet
-    - Afficher le menu complet
-    - Montrez-moi le menu complet
+    - Ouvre le lien [https://www.pnyburger.com/menu](url)
+    - Affiche le site [https://www.pnyburger.com/menu](url)
+    - Montre le menu complet [https://www.pnyburger.com/menu](url)
 
 - lookup: booking_name
   examples: |

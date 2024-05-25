@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chat Widget</title>
+    <script src="https://unpkg.com/@rasahq/rasa-chat"></script>
+</head>
+<body>
+    <h1>My Chat Widget</h1>
+    <p>Welcome to my chat widget!</p>
+    <div id="rasa-chat-widget"></div>
+    <script>
+        window.onload = () => {
+            window.WebChat.default.init({
+                selector: "#rasa-chat-widget",
+                initPayload: "/get_started",
+                interval: 1000, // 1 second
+                customData: {"language": "en"}, // arbitrary custom data
+                socketUrl: "http://localhost:5055",
+                title: "Rasa Chat",
+                subtitle: "Powered by Rasa"
+            });
+        };
+    </script>
+</body>
+</html>

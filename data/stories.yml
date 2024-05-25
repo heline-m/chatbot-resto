@@ -20,8 +20,8 @@ stories:
 
 - story: full menu path
   steps:
-    - intent: menu_ask_full
-    - template: utter_show_full_menu_link
+    - intent: open_link
+    - action: action_open_link
 
 - story: allergene menu path
   steps:

@@ -30,8 +30,13 @@ rules:
 
 - rule: show_full_menu_link
   steps:
-    - intent: booking_ask_allergene
-    - action: utter_show_allergene
+    - intent: menu_ask_full
+    - action: utter_show_full_menu_link
+
+- rule: Open external link
+  steps:
+    - intent: open_link
+    - action: action_open_link
 
 # Pour garder un trace, à retirer -----------!!!!!!!!!!!!!!!----------------
 

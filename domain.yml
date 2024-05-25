@@ -14,11 +14,14 @@ intents:
   - booking_comment
   - booking_add_comment
   - booking_give_resa_number
+  - booking_give_phone
+  - booking_give_nber_pers
   - booking_ask_resa
   - booking_ask_allergene
   - menu_ask_daily
-  - booking
-
+  - menu_ask_full
+  - open_link
+  
 responses:
   utter_greet:
   - text: "Salut! Comment puis-je vous aider ?"
@@ -52,13 +55,6 @@ responses:
   utter_show_daily_menu:
     - text: "Le menu du jour est : \n\nEntrées:\n* Salade de chèvre chaud\n* Soupe à l'oignon\n\nPlats principaux:\n* Boeuf bourguignon\n* Poisson en papillote\n\nDesserts:\n* Tarte aux pommes\n* Mousse au chocolat"
 
-templates:
-  - utter_show_full_menu_link:
-      text: "Voici le lien vers le menu complet : https://venngage.com/blog/restaurant-menu-examples/"
-      buttons:
-        - text: Consulter le menu
-          url: "https://venngage.com/blog/restaurant-menu-examples/"
-
 #      Phrases pour le form booking -------------
   utter_ask_date:
     - text: "A quelle date souhaitez vous réserver ?"
@@ -83,6 +79,12 @@ templates:
 
   utter_warning_comment:
     - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
+  
+  utter_show_full_menu_link:
+    - text: "Voici le lien vers le menu complet : https://www.pnyburger.com/menu/"
+      buttons:
+      - title: Consulter le menu
+        payload: "/open_link{\"url\":\"https://www.pnyburger.com/menu\"}"
 
 forms:
   comment_form:
@@ -141,6 +143,7 @@ entities:
   - nber_pers
   - booking_name
   - comment
+  - url
 
 actions:
   - validate_comment_form
@@ -148,6 +151,7 @@ actions:
   - validate_booking_form
   - action_save_booking
   - action_show_booking
+  - action_open_link
 
 
 session_config:
