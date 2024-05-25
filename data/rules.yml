@@ -18,6 +18,21 @@ rules:
     - intent: booking_ask_resa
     - action: action_show_booking
 
+- rule: show allergene info
+  steps:
+    - intent: booking_ask_allergene
+    - action: utter_show_allergene
+
+- rule: show daily menu
+  steps:
+    - intent: menu_ask_daily
+    - action: utter_show_daily_menu
+
+- rule: show_full_menu_link
+  steps:
+    - intent: booking_ask_allergene
+    - action: utter_show_allergene
+
 # Pour garder un trace, à retirer -----------!!!!!!!!!!!!!!!----------------
 
 #- rule: greet during reservation path

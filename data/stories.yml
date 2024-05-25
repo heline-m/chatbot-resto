@@ -12,6 +12,22 @@ stories:
     - active_loop: booking_form
     - active_loop: null
     - action: action_save_booking
+   
+- story: daily menu path
+  steps:
+    - intent: menu_ask_daily
+    - action: utter_show_daily_menu
+
+- story: full menu path
+  steps:
+    - intent: menu_ask_full
+    - template: utter_show_full_menu_link
+
+- story: allergene menu path
+  steps:
+    - intent: booking_ask_allergene
+    - action: utter_show_allergene
+   
 
 #- story: reservation path
 #  steps:

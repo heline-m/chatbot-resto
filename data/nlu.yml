@@ -119,6 +119,24 @@ nlu:
     - J'aimerais voir ma réservation
     - Montrez moi ma réservation
 
+- intent: booking_ask_allergene
+  examples: | 
+    - J'aimerais avoir une liste de tous les allergenes
+    - Donnez-moi la liste des allergenes s'il-vous-plait
+    - Montrez-moi la liste des allergenes
+
+- intent: menu_ask_daily
+  examples: |
+    - Quel est le menu du jour ?
+    - Pouvez-vous me montrer le menu du jour ?
+    - J'aimerais voir le menu d'aujourd'hui
+
+- intent: menu_ask_full
+  examples: |
+    - Lien vers le menu complet
+    - Afficher le menu complet
+    - Montrez-moi le menu complet
+
 - lookup: booking_name
   examples: |
     - Marie Aubert
