@@ -1,6 +1,6 @@
 # Projet Rasa : Bot de Réservation de Restaurant
 
-Ce projet implémente un chatbot capable de gérer des réservations pour un restaurant. Le bot peut effectuer plusieurs actions telles que la réservation de tables, la gestion des informations de réservation, et la fourniture de détails sur les allergènes et le menu du restaurant.
+#### Ce projet implémente un chatbot capable de gérer des réservations pour un restaurant. Le bot peut effectuer plusieurs actions telles que la réservation de tables, la gestion des informations de réservation, et la fourniture de détails sur les allergènes et le menu du restaurant.
 
 ## Pré-requis
 - ##### Python 3
@@ -75,7 +75,8 @@ Ce projet implémente un chatbot capable de gérer des réservations pour un res
 - ##### Fournit un lien vers le menu complet du restaurant.
 
 #### 4. Intégration du bot 
-sur une plateforme comme Slack pour une meilleure accessibilité
+
+- #####  Sur une plateforme comme Slack pour une meilleure accessibilité
 
 
 
