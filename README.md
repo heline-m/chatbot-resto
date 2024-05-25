@@ -9,21 +9,21 @@
 
 ## Etapes pour démarrer le projet
 
-#### Cloner le dépôt du projet
+#### 1. Cloner le dépôt du projet
 
-#### Créer et activer l'environnement virtuel
+#### 2. Créer et activer l'environnement virtuel
 - `python3 -m venv venv`
 - `source venv/bin/activate`
 
-#### Installer les dépendances
+#### 3. Installer les dépendances
 
 - `pip install rasa`
 
-#### Créer la base de données:
+#### 4. Créer la base de données:
 
 - `python3 create_databases.py`
 
-#### Entraîner le modèle Rasa:
+#### 5. Entraîner le modèle Rasa:
 
 - `rasa train`
 
@@ -31,7 +31,7 @@
 
 #### Dans un premier terminal:
 
-#### Déplacez-vous dans le répertoire du projet, activez l'environnement virtuel et lancer la conversation :
+#### 1. Déplacez-vous dans le répertoire du projet, activez l'environnement virtuel et lancer la conversation :
 
 - `cd <nom_du_repertoire_du_projet>`
 - `source venv/bin/activate`
@@ -44,13 +44,37 @@
 ## Démarrer les actions personnalisées
 
 #### Dans un second terminal:
-#### Déplacez-vous dans le répertoire du projet, activez l'environnement virtuel, puis exécutez les actions:
+#### 1. Déplacez-vous dans le répertoire du projet, activez l'environnement virtuel, puis exécutez les commandes suivantes :
 
 - `cd <nom_du_repertoire_du_projet>`
 - `source venv/bin/activate`
 - `rasa run actions`
 
 ##### rasa run actions gère l'exécution de toutes les actions personnalisées définies dans votre projet Rasa. Ces actions personnalisées peuvent inclure des tâches telles que l'interaction avec des bases de données, l'envoi de requêtes à des API externes
+
+## Interaction avec le bot sur une interface web avec Rasa x
+
+#### Commandes à réaliser dans le projet chatbot-resto avec l'environnement python d'activé 
+
+#### 1. Installer Rasa X :
+
+##### Rasa X est une plateforme de développement de chatbots qui facilite la construction, l'entraînement, le déploiement et l'amélioration continue des assistants conversationnels basés sur Rasa.
+
+- `pip install rasa-x`
+
+#### 2. Démarrer Rasa X dans le navigateur :
+- `rasa x`
+
+#### 3. Déployer le Serveur Rasa :
+- `rasa run -m models --enable-api --cors "*" --debug`
+##### Cette commande démarre le serveur Rasa avec les options nécessaires pour activer l'API REST et permettre les requêtes CORS.
+
+#### 4. Tester le Chat Widget
+
+##### Tester le bot avec un chat widget dans une interface web (à executer dans un nouveau terminal dans le repertoire du projet et avec l'environnement python activé)
+
+- `python3 -m http.server`
+##### Ouvrez ensuite votre navigateur et accédez à l'URL http://localhost:8000/ pour visualiser et tester votre chat widget.
 
 ## Fonctionnalités du projet
 
