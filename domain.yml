@@ -6,55 +6,130 @@ intents:
   - affirm
   - deny
   - booking
-  - booking_place
   - booking_date
+  - utter_recap_date
+  - utter_booking_name
+  - name_booking
+  - utter_recap_name
+  - booking_comment
+  - booking_add_comment
+  - booking_give_resa_number
+  - booking_ask_resa
 
 responses:
   utter_greet:
-  - text: "Hey! How can I help you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
+  - text: "Salut! Comment puis-je vous aider ?"
 
   utter_happy:
-  - text: "Great, carry on!"
+  - text: "Parfait !"
+
+  utter_of_course:
+  - text: "Bien-sûr !"
+
+  utter_ok:
+  - text: "ok"
 
   utter_goodbye:
-  - text: "Bye"
+  - text: "Au revoir"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  utter_recap_date:
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
+    - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
+    - text: "Oh navré mais nous n'avons plus de table disponible à cette date"
 
-  utter_booking_place:
-  - text: "Sure, where would you like to stay?"
+  utter_recap_name:
+    - text: "ok très bien {booking_name}"
+    - text: "{booking_name} c'est noté"
 
-  utter_booking_date:
-  - text: "Which date would you like to reserve?"
+#      Phrases pour le form booking -------------
+  utter_ask_date:
+    - text: "A quelle date souhaitez vous réserver ?"
 
-  utter_recap:
-  - text: "it's noted, I recover you want to stay in {city} {date} "
+  utter_ask_nber_pers:
+    - text: "Vous serrez combien de personne ?"
 
-entities:
-  - city
-  - date
+  utter_ask_tel:
+    - text: "Pourriez vous me donner votre numéro de téléphone ?"
+
+  utter_ask_booking_name:
+    - text: "Et ça sera à quel nom ?"
+#      END
+
+#      Phrases pour le form comment -------------
+  utter_ask_booking_code:
+    - text : "Pouvez vous me donnez le numéro de votre réservation ?"
+
+  utter_ask_comment:
+    - text: "De quoi souhaitez-vous nous faire part ?"
+#      END
+
+  utter_warning_comment:
+    - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
+
+forms:
+  comment_form:
+    required_slots:
+      - booking_code
+      - comment
+  booking_form:
+    required_slots:
+      - date
+      - nber_pers
+      - tel
+      - booking_name
 
 slots:
-  city:
+  booking_code:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: city
+      - type: from_entity
+        entity: booking_code
   date:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_entity
-      entity: date
+      - type: from_entity
+        entity: date
+  nber_pers:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: nber_pers
+  tel:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: tel
+  booking_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: booking_name
+  comment:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: comment
+
+entities:
+  - booking_code
+  - date
+  - tel
+  - nber_pers
+  - booking_name
+  - comment
+
+actions:
+  - validate_comment_form
+  - action_save_comment
+  - validate_booking_form
+  - action_save_booking
+  - action_show_booking
 
 
 session_config:

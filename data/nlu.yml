@@ -3,111 +3,153 @@ version: "3.1"
 nlu:
 - intent: greet
   examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+    - Bonjour
+    - Salut
+    - Bonsoir
+    - Hey
 
 - intent: goodbye
   examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
+    - Au revoir
+    - A bientôt
+    - A la prochaine
     - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+    - Bonne continuation
 
 - intent: affirm
   examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+    - oui
+    - très bien
+    - parfait
+    - c'est noté
+    - excellent
 
 - intent: deny
   examples: |
-    - no
+    - non
     - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+    - jamais
+    - Je ne pense pas
+    - Je n'aime pas ça
+    - hors de question
+    - pas vraiment
+    - en fait non
+    - j'ai changé d'avis
 
 - intent: booking
   examples: |
-    - can i make a booking?
-    - can i make a reservation?
-
-- intent: booking_place
-  examples: |
-    - [Marseille](city)
-    - [Lille](city)
-    - [Angers](city)
-    - [Roubaix](city)
-    - je voudrais dormir à [Paris](city)
-    - Pour [Rennes](city)
-    - Je vais à [Reims](city)
-    - je voudrais allez à [Louvigné du desert](city)
-    - C'est possible à [Louvigné-du-desert](city)?
-    - Je voudrais réserver à [Paris](city), s'il vous plaît.
-    - Pour moi, ce sera [Lyon](city).
-    - Je pense à [Marseille](city) pour cette fois.
-    - [Bordeaux](city) serait idéal, merci.
-    - Réservez à [Toulouse](city), s'il vous plaît.
-    - [Nice](city), pour profiter de la plage.
-    - J'aimerais une chambre à [Strasbourg](city).
-    - Ce sera [Nantes](city) pour ce voyage.
-    - [Montpellier](city), s'il vous plaît.
-    - J'opte pour [Lille](city) cette fois-ci.
-    - Une chambre à [Rennes](city), merci.
-    - Je préfère [Grenoble](city), pour la montagne.
-    - [Avignon](city) me conviendrait parfaitement.
-    - Réservez à [Tours](city), s'il vous plaît.
-    - Je choisirai [Saint-Étienne](city).
-    - [Clermont-Ferrand](city), pour être au calme.
-    - [La Rochelle](city), j'adore cette ville.
-    - Je prends une chambre à [Caen](city).
-    - [Limoges](city) serait parfait pour moi.
-    - [Amiens](city), s'il vous plaît.
-    - Réservez à [Brest](city), pour la vue sur mer.
-    - [Angers](city), j'y vais pour le festival.
-    - [Dijon](city), pour découvrir la gastronomie.
-    - [Le Havre](city), pour un séminaire.
-    - [Orléans](city), pour la proximité avec Paris.
-    - [Mulhouse](city), pour un déplacement professionnel.
-    - [Perpignan](city), j'aimerais profiter du soleil.
-    - Je choisis [Poitiers](city) cette fois.
-    - [Bayonne](city), pour le festival.
-    - Une chambre à [Biarritz](city), merci.
+    - Je voudrais réserver une table pour une occasion spéciale
+    - Serait-il possible de réserver une table pour un groupe ?
+    - Je suis intéressé par une réservation pour un prochain repas
+    - Pourriez-vous me dire s'il est possible de réserver une table pour un dîner/déjeuner ?
+    - J'aimerais réserver une table pour une future occasion. Est-ce possible ?
+    - Est-ce qu'on peut réserver pour une prochaine fois ?
+    - Y a-t-il des tables disponibles pour un prochain repas ?
+    - On cherche un bon restaurant pour une occasion spéciale. Vous avez de la place ?
+    - Je suis à la recherche d'un endroit pour réserver une table pour un groupe
 
 - intent: booking_date
   examples: |
-    - [15 August 2024]{"entity": "date"}
-    - [26 August 2024]{"entity": "date"}
-    - [26 November 2024]{"entity": "date"}
-    - [12 September 2024]{"entity": "date"}
+    - nous souhaitons réserver pour le [12/09/24](date)
+    - ça serait pour le [03/02/25](date)
+    - Nous aimerions réserver pour le [25/05/24](date)
 
-- lookup: city
+- intent: name_booking
   examples: |
-    - Nantes
-    - Auckland
-    - Tauranga
-    - Papamoa
-    - Te Puke
-    - Gleenfield
+    - ça sera au nom de [Youenn Duval](booking_name)
+    - ça sera au nom de [Youenn](booking_name)
+    - au nom de [Youenn Duval](booking_name)
+    - au nom de [Duval](booking_name)
+    - [Youenn](booking_name)
+    - [Youenn Duval](booking_name)
+    - [Elisabeth](booking_name) s'il vous plait
+    - Mettez [Ludivine Perrigaud](booking_name)
+    - Parfait, c'est au nom de [Adeline](booking_name)
+    - Vous pouvez noter, c'est [Martineau](booking_name)
+    - c'est [Sophie](Youenn)
+    - C'est pour moi, [Marie](booking_name)
+    - Je réserve pour [Henry](booking_name)
+    - La réservation est au nom de [Richard](booking_name)
+    - Merci, c'est au nom de [Arthur Bonneau](booking_name)
+
+- intent: booking_comment
+  examples: |
+    - Pourrais-je ajouter un commentaire à ma réservation, s'il vous plaît ?
+    - Serait-il possible de laisser un commentaire sur ma réservation ?
+    - J'aimerais ajouter un commentaire à ma réservation existante. Est-ce possible ?
+    - Y a-t-il un moyen d'ajouter un commentaire à ma réservation ?
+    - Je voudrai ajouter un commentaire
+    - Est-ce que je peux rajouter un commentaire ?
+
+- intent : booking_add_comment
+  examples: |
+    - [Nous célébrons notre anniversaire de mariage et nous aimerions une table romantique]{"entity": "comment"}
+    - [Nous venons pour un anniversaire]{"entity": "comment"}
+    - [Nous célébrons notre anniversaire de mariage]{"entity": "comment"}
+    - [Je souhaite faire ma demande en mariage]{"entity": "comment"}
+    - [Je suis allergique aux noix, donc veuillez vous assurer qu'aucun plat ne contient de noix]{"entity": "comment"}
+    - [Je n'aime pas les fruits de mer]{"entity": "comment"}
+    - [Je suis intolérant au gluten]{"entity": "comment"}
+    - [Nous organisons un déjeuner d'affaires et nous aurions besoin d'une table calme et discrète]{"entity": "comment"}
+
+- intent: booking_give_resa_number
+  examples: |
+    - Bien-sûr, mon numéro était le [1002](booking_code)
+    - Mon numéro de réservation est le [6000](booking_code)
+    - Le numéro de ma réservation est le [5048](booking_code)
+    - Voici votre numéro de réservation: le [3020](booking_code)
+
+- intent: booking_give_phone
+  examples: |
+    - Mon numéro est le [06.35.24.15.53](tel)
+    - Vous pouvez me joindre au [06.78.95.45.63](tel)
+    - Vous pouvez m'appeler au [06.76.21.32.52](tel)
+
+- intent: booking_give_nber_pers
+  examples: |
+    - Nous serons [10](nber_pers)
+    - Je pense que nous serons [5](nber_pers)
+    - mettez [2](nber_pers)
+    - Heuuu [4](nber_pers) je pense 
+    - notez [12](nber_pers)
+
+- intent: booking_ask_resa
+  examples: | 
+    - J'aimerais afficher ma réservation
+    - J'aimerais voir ma réservation
+    - Montrez moi ma réservation
+
+- lookup: booking_name
+  examples: |
+    - Marie Aubert
+    - Gabriel Martin
+    - Léo Dubois
+    - Dupont
+    - Durand
+    - Leroy
+    - Florence
+    - Adam Petit
+    - Jules Robert
+    - Thomas
+    - Lucas Chevalier
+    - Louise Martin
+    - Dubois
+    - Ambre Durand
+    - Emma Leroy
+    - Katia Bernard
+    - Petit
+    - Léna Bréhier
+    - Quentin
+    - Julia Chevalier
+    - Chloé
+    - Bernard
+    - Moreau
+    - Lefebvre
+    - Leroy
+    - Fournier
+    - Bonnet
+    - Girard
+    - Mercier
+    - Guerin
+    
+  
