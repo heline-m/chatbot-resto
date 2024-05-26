@@ -98,6 +98,8 @@ nlu:
     - Mon numéro de réservation est le [6000](booking_code)
     - Le numéro de ma réservation est le [5048](booking_code)
     - Voici votre numéro de réservation: le [3020](booking_code)
+    - Voici votre numéro de réservation: [3020](booking_code)
+    - Mon code de réservation est le [3020](booking_code)
 
 - intent: booking_give_phone
   examples: |
@@ -118,6 +120,34 @@ nlu:
     - J'aimerais afficher ma réservation
     - J'aimerais voir ma réservation
     - Montrez moi ma réservation
+
+- intent: booking_cancel_booking
+  examples: |
+    - Je souhaite annuler ma réservation
+    - Pourriez-vous s'il vous plaît annuler ma réservation numéro ?
+    - J'aimerais annuler ma réservation 
+    - Je voudrais annuler ma réservation
+    - Pouvez-vous annuler la réservation ?
+    - Serait-il possible d'annuler ma réservation, s'il vous plaît ?
+    - Veuillez annuler ma réservation 
+
+- intent: booking_ask_allergene
+  examples: | 
+    - J'aimerais avoir une liste de tous les allergenes
+    - Donnez-moi la liste des allergenes s'il-vous-plait
+    - Montrez-moi la liste des allergenes
+
+- intent: menu_ask_daily
+  examples: |
+    - Quel est le menu du jour ?
+    - Pouvez-vous me montrer le menu du jour ?
+    - J'aimerais voir le menu d'aujourd'hui
+
+- intent: open_link
+  examples: |
+    - Ouvre le lien du menu complet
+    - Affiche le site pour consulter le menu
+    - Montre le menu complet
 
 - lookup: booking_name
   examples: |
@@ -151,5 +181,3 @@ nlu:
     - Girard
     - Mercier
     - Guerin
-    
-  

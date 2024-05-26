@@ -14,8 +14,14 @@ intents:
   - booking_comment
   - booking_add_comment
   - booking_give_resa_number
+  - booking_give_phone
+  - booking_give_nber_pers
   - booking_ask_resa
-
+  - booking_ask_allergene
+  - menu_ask_daily
+  - menu_ask_full
+  - open_link
+  
 responses:
   utter_greet:
   - text: "Salut! Comment puis-je vous aider ?"
@@ -32,6 +38,9 @@ responses:
   utter_goodbye:
   - text: "Au revoir"
 
+  utter_recap_booking_code:
+  - text: "{booking_code} c'est noté"
+
   utter_recap_date:
     - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
     - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
@@ -40,6 +49,14 @@ responses:
   utter_recap_name:
     - text: "ok très bien {booking_name}"
     - text: "{booking_name} c'est noté"
+
+  utter_show_allergene:
+    - text: "Ce produit contient du lait, des œufs et des arachides."
+    - text: "Ce produit contient du soja, du blé et des fruits à coque"
+    - text: "Ce plat est préparé avec des ingrédients allergènes tels que le poisson, les crustacés et le céleri"
+
+  utter_show_daily_menu:
+    - text: "Le menu du jour est : \n\nEntrées:\n* Salade de chèvre chaud\n* Soupe à l'oignon\n\nPlats principaux:\n* Boeuf bourguignon\n* Poisson en papillote\n\nDesserts:\n* Tarte aux pommes\n* Mousse au chocolat"
 
 #      Phrases pour le form booking -------------
   utter_ask_date:
@@ -55,6 +72,9 @@ responses:
     - text: "Et ça sera à quel nom ?"
 #      END
 
+  utter_ask_code_booking:
+    - text: "Quel était votre code de réservation ?" 
+
 #      Phrases pour le form comment -------------
   utter_ask_booking_code:
     - text : "Pouvez vous me donnez le numéro de votre réservation ?"
@@ -65,6 +85,9 @@ responses:
 
   utter_warning_comment:
     - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
+
+  utter_open_link_button:
+    - text: "Voici le lien vers le menu complet : [Cliquez ici](https://www.pnyburger.com/menu)"
 
 forms:
   comment_form:
@@ -130,6 +153,8 @@ actions:
   - validate_booking_form
   - action_save_booking
   - action_show_booking
+  - action_open_link
+  - action_cancel_booking
 
 
 session_config:
