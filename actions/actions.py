@@ -16,20 +16,6 @@ from datetime import datetime
 import re
 import random
 
-# example:
-# class ActionHelloWorld(Action):
-#
-#     def name(self) -> Text:
-#         return "action_hello_world"
-#
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message(text="Hello World!")
-#
-#         return []
-
 class ValidateBookingForm(FormValidationAction):
     def name(self):
         return "validate_booking_form"
@@ -45,12 +31,17 @@ class ValidateBookingForm(FormValidationAction):
         """Validate `date` value."""
         # Vérifie si le numéro de réservation est déjà présent dans le slot
 
-        print("je suis dans booking date")
-        # TODO vérification de la date sous la forme **/**/**
-
         try:
             datetime.strptime(slot_value, "%d/%m/%y")
-            return {"date": slot_value}
+
+            is_available = random.choice([True, False])
+
+            if is_available:
+                return {"date": slot_value}
+            else:
+                dispatcher.utter_message(text="Désolé, la table n'est pas disponible à cette date. Veuillez choisir une autre date.")
+                return {"date": None} 
+            
         except ValueError:
             dispatcher.utter_message(text="La date doit être au format jj/mm/aa.")
             return {"date": None}
@@ -64,10 +55,8 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `nber_pers` value."""
-        print("je suis dans nombre pers")
 
         number = int(slot_value)
-        # TODO validation : le nombre doit être compris entre 1 et 15
 
         if 1 <= number <= 15:
             return {"nber_pers": number}
@@ -84,7 +73,6 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `tel` value."""
-        print("je suis dans nombre pers")
 
         if re.fullmatch(r"\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}", slot_value):
             return {"tel": slot_value}
@@ -101,7 +89,6 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `booking_name` value."""
-        print("je suis dans nom")
 
         if slot_value and slot_value.strip():
             return {"booking_name": slot_value}
@@ -116,25 +103,17 @@ class ActionSaveBooking(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
 
-        print("j'enregistre")
         try:
             conn = sqlite3.connect('rasa.db')
             cursor = conn.cursor()
 
-            # TODO a retirer sert juste à debbuger
             cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
             rows = cursor.fetchall()
 
-            print(rows)
-
             date = tracker.get_slot('date')
-            print(date)
             nber_pers = int(tracker.get_slot('nber_pers'))
-            print(nber_pers)
             tel = tracker.get_slot('tel')
-            print(tel)
             booking_name = tracker.get_slot('booking_name')
-            print(booking_name)
 
             # création du booking code
             booking_code = random.randint(1000, 9999)
@@ -163,6 +142,37 @@ class ActionSaveBooking(Action):
         return [SlotSet("booking_code", booking_code), SlotSet("date", None), SlotSet("nber_pers", None), SlotSet("tel", None), SlotSet("booking_name", None)]
 
 
+class ActionCancelBooking(Action):
+    def name(self) -> str:
+        return "action_cancel_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
+        booking_code = tracker.get_slot("booking_code")
+
+        if not booking_code:
+            dispatcher.utter_message(text="Veuillez fournir un code de réservation pour supprimer la réservation.")
+            return []
+
+        conn = sqlite3.connect('rasa.db')
+        cursor = conn.cursor()
+
+        # Supprimer la réservation par code de réservation
+        cursor.execute("DELETE FROM reservation WHERE booking_code = ?", (booking_code,))
+        rows_affected = cursor.rowcount
+
+        # Valider la transaction et fermer la connexion
+        conn.commit()
+        conn.close()
+
+        if rows_affected > 0:
+            message = f"La réservation avec le code {booking_code} a été supprimée avec succès."
+        else:
+            message = f"Aucune réservation trouvée pour le code {booking_code}."
+
+        dispatcher.utter_message(text=message)
+
+        return [SlotSet("booking_code", None)]
+
 
 class ValidateCommentForm(FormValidationAction):
     def name(self):
@@ -179,7 +189,6 @@ class ValidateCommentForm(FormValidationAction):
         """Validate `booking_code` value."""
         # Vérifie si le numéro de réservation est déjà présent dans le slot
 
-        print("je suis la")
         number = int(slot_value)
 
         if number > 0:
@@ -197,7 +206,6 @@ class ValidateCommentForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `comment` value."""
-        print("je suis dans comment")
 
         if isinstance(slot_value, str) and len(slot_value.strip()) > 5:
             return {"comment": slot_value.strip()}
@@ -218,16 +226,11 @@ class ActionSaveComment(Action):
             conn = sqlite3.connect('rasa.db')
             cursor = conn.cursor()
 
-            # TODO a retirer sert juste à debbuger
             cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
             rows = cursor.fetchall()
 
-            print(rows)
-
             reservation_id = tracker.get_slot('booking_code')
-            print(reservation_id)
             comment = tracker.get_slot('comment')
-            print(comment)
 
             if not reservation_id or not comment:
                 dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
@@ -289,6 +292,19 @@ class ActionShowBooking(Action):
 
         # Envoyer le message à l'utilisateur
         dispatcher.utter_message(text=message)
+
+        return []
+
+class ActionOpenLink(Action):
+    def name(self) -> Text:
+        return "action_open_link"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Envoyer le message avec le bouton ou l'URL cliquable
+        dispatcher.utter_message(response="utter_open_link_button")
 
         return []
 
