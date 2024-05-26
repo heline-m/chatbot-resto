@@ -38,6 +38,9 @@ responses:
   utter_goodbye:
   - text: "Au revoir"
 
+  utter_recap_booking_code:
+  - text: "{booking_code} c'est noté"
+
   utter_recap_date:
     - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {day} {number} {month}"
     - text: "C'est noté, vous avez donc réservé pour {number} personne, pour le {number} {month}"
@@ -68,6 +71,9 @@ responses:
   utter_ask_booking_name:
     - text: "Et ça sera à quel nom ?"
 #      END
+
+  utter_ask_code_booking:
+    - text: "Quel était votre code de réservation ?" 
 
 #      Phrases pour le form comment -------------
   utter_ask_booking_code:
@@ -148,6 +154,7 @@ actions:
   - action_save_booking
   - action_show_booking
   - action_open_link
+  - action_cancel_booking
 
 
 session_config:

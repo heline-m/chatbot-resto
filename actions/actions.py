@@ -171,6 +171,37 @@ class ActionSaveBooking(Action):
         return [SlotSet("booking_code", booking_code), SlotSet("date", None), SlotSet("nber_pers", None), SlotSet("tel", None), SlotSet("booking_name", None)]
 
 
+class ActionCancelBooking(Action):
+    def name(self) -> str:
+        return "action_cancel_booking"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
+        booking_code = tracker.get_slot("booking_code")
+
+        if not booking_code:
+            dispatcher.utter_message(text="Veuillez fournir un code de réservation pour supprimer la réservation.")
+            return []
+
+        conn = sqlite3.connect('rasa.db')
+        cursor = conn.cursor()
+
+        # Supprimer la réservation par code de réservation
+        cursor.execute("DELETE FROM reservation WHERE booking_code = ?", (booking_code,))
+        rows_affected = cursor.rowcount
+
+        # Valider la transaction et fermer la connexion
+        conn.commit()
+        conn.close()
+
+        if rows_affected > 0:
+            message = f"La réservation avec le code {booking_code} a été supprimée avec succès."
+        else:
+            message = f"Aucune réservation trouvée pour le code {booking_code}."
+
+        dispatcher.utter_message(text=message)
+
+        return [SlotSet("booking_code", None)]
+
 
 class ValidateCommentForm(FormValidationAction):
     def name(self):

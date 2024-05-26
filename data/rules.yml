@@ -18,6 +18,16 @@ rules:
     - intent: booking_ask_resa
     - action: action_show_booking
 
+- rule: cancel booking
+  steps:
+    - intent: booking_cancel_booking
+    - action: action_cancel_booking
+
+- rule: save booking code
+  steps:
+   - intent: booking_give_resa_number
+   - action: utter_recap_booking_code 
+
 - rule: show allergene info
   steps:
     - intent: booking_ask_allergene

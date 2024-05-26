@@ -98,6 +98,8 @@ nlu:
     - Mon numéro de réservation est le [6000](booking_code)
     - Le numéro de ma réservation est le [5048](booking_code)
     - Voici votre numéro de réservation: le [3020](booking_code)
+    - Voici votre numéro de réservation: [3020](booking_code)
+    - Mon code de réservation est le [3020](booking_code)
 
 - intent: booking_give_phone
   examples: |
@@ -118,6 +120,16 @@ nlu:
     - J'aimerais afficher ma réservation
     - J'aimerais voir ma réservation
     - Montrez moi ma réservation
+
+- intent: booking_cancel_booking
+  examples: |
+    - Je souhaite annuler ma réservation
+    - Pourriez-vous s'il vous plaît annuler ma réservation numéro ?
+    - J'aimerais annuler ma réservation 
+    - Je voudrais annuler ma réservation
+    - Pouvez-vous annuler la réservation ?
+    - Serait-il possible d'annuler ma réservation, s'il vous plaît ?
+    - Veuillez annuler ma réservation 
 
 - intent: booking_ask_allergene
   examples: | 
