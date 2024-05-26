@@ -28,12 +28,7 @@ rules:
     - intent: menu_ask_daily
     - action: utter_show_daily_menu
 
-- rule: show_full_menu_link
-  steps:
-    - intent: menu_ask_full
-    - action: utter_show_full_menu_link
-
-- rule: Open external link
+- rule: open link
   steps:
     - intent: open_link
     - action: action_open_link

@@ -299,16 +299,9 @@ class ActionOpenLink(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # Récupérer l'URL depuis l'entité
-        url = next(tracker.get_latest_entity_values("url"), None)
-        print(f"URL extracted: {url}")
-
-        # Envoyer le message avec le lien (simulation)
-        if url:
-            dispatcher.utter_message(text=f"Cliquez ici pour visiter le site : {url}")
-        else:
-            dispatcher.utter_message(text="Désolé, je n'ai pas pu récupérer l'URL.")
+        
+        # Envoyer le message avec le bouton ou l'URL cliquable
+        dispatcher.utter_message(response="utter_open_link_button")
 
         return []
 

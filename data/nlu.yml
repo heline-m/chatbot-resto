@@ -133,9 +133,9 @@ nlu:
 
 - intent: open_link
   examples: |
-    - Ouvre le lien [https://www.pnyburger.com/menu](url)
-    - Affiche le site [https://www.pnyburger.com/menu](url)
-    - Montre le menu complet [https://www.pnyburger.com/menu](url)
+    - Ouvre le lien du menu complet
+    - Affiche le site pour consulter le menu
+    - Montre le menu complet
 
 - lookup: booking_name
   examples: |

@@ -79,12 +79,9 @@ responses:
 
   utter_warning_comment:
     - text : "Êtes vous sûr de vouloir modifier votre commentaire ? (si un commentaire est déjà existant il sera perdu)"
-  
-  utter_show_full_menu_link:
-    - text: "Voici le lien vers le menu complet : https://www.pnyburger.com/menu/"
-      buttons:
-      - title: Consulter le menu
-        payload: "/open_link{\"url\":\"https://www.pnyburger.com/menu\"}"
+
+  utter_open_link_button:
+    - text: "Voici le lien vers le menu complet : [Cliquez ici](https://www.pnyburger.com/menu)"
 
 forms:
   comment_form:
@@ -143,7 +140,6 @@ entities:
   - nber_pers
   - booking_name
   - comment
-  - url
 
 actions:
   - validate_comment_form
