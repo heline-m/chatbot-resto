@@ -50,7 +50,15 @@ class ValidateBookingForm(FormValidationAction):
 
         try:
             datetime.strptime(slot_value, "%d/%m/%y")
-            return {"date": slot_value}
+
+            is_available = random.choice([True, False])
+
+            if is_available:
+                return {"date": slot_value}
+            else:
+                dispatcher.utter_message(text="Désolé, la table n'est pas disponible à cette date. Veuillez choisir une autre date.")
+                return {"date": None} 
+            
         except ValueError:
             dispatcher.utter_message(text="La date doit être au format jj/mm/aa.")
             return {"date": None}
