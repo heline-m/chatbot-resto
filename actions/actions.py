@@ -16,20 +16,6 @@ from datetime import datetime
 import re
 import random
 
-# example:
-# class ActionHelloWorld(Action):
-#
-#     def name(self) -> Text:
-#         return "action_hello_world"
-#
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message(text="Hello World!")
-#
-#         return []
-
 class ValidateBookingForm(FormValidationAction):
     def name(self):
         return "validate_booking_form"
@@ -44,9 +30,6 @@ class ValidateBookingForm(FormValidationAction):
 
         """Validate `date` value."""
         # Vérifie si le numéro de réservation est déjà présent dans le slot
-
-        print("je suis dans booking date")
-        # TODO vérification de la date sous la forme **/**/**
 
         try:
             datetime.strptime(slot_value, "%d/%m/%y")
@@ -72,10 +55,8 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `nber_pers` value."""
-        print("je suis dans nombre pers")
 
         number = int(slot_value)
-        # TODO validation : le nombre doit être compris entre 1 et 15
 
         if 1 <= number <= 15:
             return {"nber_pers": number}
@@ -92,7 +73,6 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `tel` value."""
-        print("je suis dans nombre pers")
 
         if re.fullmatch(r"\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}", slot_value):
             return {"tel": slot_value}
@@ -109,7 +89,6 @@ class ValidateBookingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `booking_name` value."""
-        print("je suis dans nom")
 
         if slot_value and slot_value.strip():
             return {"booking_name": slot_value}
@@ -124,25 +103,17 @@ class ActionSaveBooking(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
 
-        print("j'enregistre")
         try:
             conn = sqlite3.connect('rasa.db')
             cursor = conn.cursor()
 
-            # TODO a retirer sert juste à debbuger
             cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
             rows = cursor.fetchall()
 
-            print(rows)
-
             date = tracker.get_slot('date')
-            print(date)
             nber_pers = int(tracker.get_slot('nber_pers'))
-            print(nber_pers)
             tel = tracker.get_slot('tel')
-            print(tel)
             booking_name = tracker.get_slot('booking_name')
-            print(booking_name)
 
             # création du booking code
             booking_code = random.randint(1000, 9999)
@@ -218,7 +189,6 @@ class ValidateCommentForm(FormValidationAction):
         """Validate `booking_code` value."""
         # Vérifie si le numéro de réservation est déjà présent dans le slot
 
-        print("je suis la")
         number = int(slot_value)
 
         if number > 0:
@@ -236,7 +206,6 @@ class ValidateCommentForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         """Validate `comment` value."""
-        print("je suis dans comment")
 
         if isinstance(slot_value, str) and len(slot_value.strip()) > 5:
             return {"comment": slot_value.strip()}
@@ -257,16 +226,11 @@ class ActionSaveComment(Action):
             conn = sqlite3.connect('rasa.db')
             cursor = conn.cursor()
 
-            # TODO a retirer sert juste à debbuger
             cursor.execute("SELECT id, booking_code, date, nber_pers, phone, comment FROM reservation")
             rows = cursor.fetchall()
 
-            print(rows)
-
             reservation_id = tracker.get_slot('booking_code')
-            print(reservation_id)
             comment = tracker.get_slot('comment')
-            print(comment)
 
             if not reservation_id or not comment:
                 dispatcher.utter_message(text="Je n'ai pas pu trouver le numéro de la réservation ou le commentaire.")
