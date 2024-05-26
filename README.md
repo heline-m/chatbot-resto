@@ -76,6 +76,47 @@
 - `python3 -m http.server`
 ##### Ouvrez ensuite votre navigateur et accédez à l'URL http://localhost:8000/ pour visualiser et tester votre chat widget.
 
+## Intégration du Bot Rasa dans Slack
+
+#### 1. Configurer ngrok :
+
+##### Installez ngrok depuis ngrok.com.
+
+#### 2. Exposer le serveur local avec ngrok :
+
+##### - Lancez ngrok en utilisant la commande suivante dans votre terminal 
+- `ngrok authtoken <votre_authtoken_ngrok>` : <votre_authtoken_ngrok> correspond au token d'authentification ngrok
+
+##### - Lancez la commande suivante dans votre terminal pour exposer votre serveur local 
+
+- `ngrok http 5005` 
+
+##### - Notez l'URL publique générée par ngrok.
+
+#### 3. Démarrer le serveur Rasa :
+- `rasa run -m models --enable-api --cors "*" --debug --credentials credentials.yml`
+
+#### 4. Mettre à jour les identifiants :
+
+##### - Dans le répertoire du projet Rasa, ouvrez le fichier credentials.yml.
+##### - Sous la section slack, mettez à jour le champ url avec l'URL publique de ngrok
+
+- `slack:`
+- `slack_channel: "<votre_identifiant_de_canal_slack>"`
+- `slack_token: "<votre_token_slack>"` - `slack_signing_secret: "<votre_secret_de_signature_slack>"`
+- `url: "https://votre-url-ngrok.ngrok.io/webhook"`
+
+#### 5. Configurer l'API Slack :
+
+##### - Créez une application Slack sur la plateforme Slack.
+##### - Associez votre bot Rasa à cette application en utilisant l'URL publique de ngrok comme point de terminaison pour les événements et les requêtes de message.
+##### - Ajoutez votre application à un canal Slack.
+##### - Commencez à interagir avec votre bot depuis Slack !
+
+##### - Consutler le lien de la documentation : https://rasa.com/docs/rasa/connectors/slack#sending-messages
+
+##### - A chaque redémarrage de ngrik, l'url publique change. Pensez aussi à changer l'url dans Slack API dans les sections Event Suvbscriptions et Interactivity & Shortcut
+
 ## Fonctionnalités du projet
 
 #### Le bot développé permet de gérer plusieurs aspects des réservations de restaurant. Voici un aperçu des fonctionnalités disponibles :
@@ -101,7 +142,3 @@
 #### 4. Intégration du bot 
 
 - #####  Sur une plateforme comme Slack pour une meilleure accessibilité
-
-
-
-
